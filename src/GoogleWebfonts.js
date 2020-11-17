@@ -28,7 +28,7 @@ function tmpFile(filename) {
 }
 
 function getVariantCss({ variant, info, font, formats, display, fontsPath }) {
-	const src = Object.prototype.hasOwnProperty.call(info, 'local') ? info.local.map(fileName => `local("${fileName}")`) : ["local("+info.fontFamily+")"]
+	const src = ["local("+info.fontFamily+")"]
 	let fallback
 	formats.forEach(ext => {
 		if(ext in info) {
