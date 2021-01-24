@@ -1,5 +1,5 @@
 {
-  "name": "@udragon/google-fonts-webpack-plugin",
+  "name": "@beyonk/google-fonts-webpack-plugin",
   "version": "1.5.0",
   "description": "Google Fonts Webpack plugin",
   "main": "src/index.js",
