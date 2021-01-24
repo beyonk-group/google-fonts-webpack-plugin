@@ -3,7 +3,7 @@
   "version": "1.5.0",
   "description": "Google Fonts Webpack plugin",
   "main": "src/index.js",
-  "author": "Ugo Palatucci",
+  "author": "Gabriela Seabra",
   "license": "ISC",
   "homepage": "https://github.com/beyonk-adventures/google-fonts-webpack-plugin",
   "repository": {
