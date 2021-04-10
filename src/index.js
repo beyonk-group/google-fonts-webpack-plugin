@@ -128,14 +128,24 @@ class GoogleWebfontsPlugin {
         const make = (compilation, cb) => {
 
 			const additionalAssets = (cb) => {
-	            compilation.chunks.add(this.chunk);
+                if (typeof compilation.chunks.add !== 'undefined') {
+                    compilation.chunks.add(this.chunk); // webpack v5
+                } else {
+                    compilation.chunks.push(this.chunk); // webpack v4
+                }
+
 	            compilation.namedChunks.set(this.options.name, this.chunk);
 	            cb();
 	        };
 
             if (local) {
                 const addFile = (fileName, source) => {
-                    this.chunk.files.add(fileName)
+                    if (typeof this.chunk.files.add !== 'undefined') {
+                        this.chunk.files.add(fileName) // webpack v5
+                    } else {
+                        this.chunk.files.push(fileName) // webpack v4
+                    }
+
                     compilation.assets[fileName] = source
                 }
                 this.fetch().then(({
