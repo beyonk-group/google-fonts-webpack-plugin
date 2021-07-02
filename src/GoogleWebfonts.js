@@ -27,17 +27,20 @@ const FONT_FACE = ({ fontFamily, fontStyle, fontWeight, display, src, fallback }
 `
 
 function configureProxy(options) {
-	// default proxy is undefined, no proxy will be used (proxy: false)
-	proxy = undefined
-	const type = typeof options
-
-	if (type === 'object') {
-		// use webpack config if available
-		proxy = new ProxyAgent(options)
-	} else if(type === "boolean" && options !== false) {
-		// if enabled `proxy: true` use proxy agent using config from environment vars
+	// ProxyAgent instance with environment variable config
+	if(!_.isUndefined(options) && _.isEmpty(options)) {
 		proxy = new ProxyAgent()
+		return;
 	}
+
+	// ProxyAgent instance with custom options
+	if (_.isObject(options)) {
+		proxy = new ProxyAgent(options)
+		return;
+	}
+
+	// default proxy is undefined, no proxy will be used
+	proxy = undefined
 }
 
 function getFetchOptions() {

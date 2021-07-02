@@ -35,6 +35,30 @@ module.exports = {
 }
 ```
 
+### with Proxy
+
+`/webpack.config.js`
+```js
+const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin")
+
+module.exports = {
+	"entry": "index.js",
+	/* ... */
+	plugins: [
+		new GoogleFontsPlugin({
+			proxy: {
+				protocol: "http:",
+				port: "1024",
+				hostname: "proxy.corporate.com",
+				ciphers: 'TLS_AES_256_GCM_SHA384:ECDHE-RSA-AES256-GCM-SHA384',
+				minVersion: "TLSv1.2",
+            }
+			/* ...options */
+		})
+	]
+}
+```
+
 ## Options
 
 ```js
@@ -51,7 +75,7 @@ new GoogleFontsPlugin(options: Object)
 |noLocalInCss|`Boolean`|`false`|Whether to prepend `local(FontName)` expression before font files in CSS file ([see MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/src)).
 |formats|`Array`|`[ "eot", "woff", "woff2", "ttf", "svg" ]`|Font formats to download.
 |apiUrl|`String`|`"https://google-webfonts-helper.herokuapp.com/api/fonts"`|google-webfonts-helper API url.
-
+|proxy|`ProxyAgentOptionObject`|`undefined`|settings which get passed to the ProxyAgent ([see Repo](https://github.com/TooTallNate/node-proxy-agent)). Setting this to `undefined` (default) leads to a disable ProxyAgent and setting it to `{}` let the plugin read the environment variables `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY`. It's also possible to define the proxy settings via webpack config 
 
 ### FontObject
 

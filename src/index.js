@@ -16,7 +16,7 @@ const defaults = {
     path: "font",
     local: true,
     noLocalInCss: false,
-    proxy: false
+    proxy: undefined
 }
 
 const pluginSignature = {
