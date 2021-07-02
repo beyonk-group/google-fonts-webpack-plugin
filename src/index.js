@@ -15,7 +15,8 @@ const defaults = {
     filename: "fonts.css",
     path: "font",
     local: true,
-    noLocalInCss: false
+    noLocalInCss: false,
+    proxy: false
 }
 
 const pluginSignature = {
@@ -28,6 +29,8 @@ class GoogleWebfontsPlugin {
         this.chunk = new Chunk(this.options.name)
         this.chunk.ids = []
         this.chunk.name = this.options.name
+
+        GoogleWebfonts.configureProxy(this.options.proxy)
     }
 
     get api () {
