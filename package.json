@@ -33,6 +33,7 @@
     "md5": "^2.2.1",
     "node-fetch": "^2.1.2",
     "webpack-sources": "^1.1.0",
+    "proxy-agent": "^4.0.1",
     "yauzl": "^2.8.0"
   },
   "peerDependencies": {

@@ -7,6 +7,9 @@ const md5 = require("md5")
 const fs = require("fs")
 const { RawSource } = require("webpack-sources")
 const FontTypes = require("./FontTypes")
+const ProxyAgent = require("proxy-agent")
+
+let proxy
 
 const API_URL = "https://gwfh.mranftl.com/api/fonts"
 
@@ -22,6 +25,31 @@ const FONT_FACE = ({ fontFamily, fontStyle, fontWeight, display, src, fallback }
 	${src.length ? `src: ${src.join(",\n\t\t")};` : ""}
 }
 `
+
+function configureProxy(options) {
+	// ProxyAgent instance with environment variable config
+	if(!_.isUndefined(options) && _.isEmpty(options)) {
+		proxy = new ProxyAgent()
+		return;
+	}
+
+	// ProxyAgent instance with custom options
+	if (_.isObject(options)) {
+		proxy = new ProxyAgent(options)
+		return;
+	}
+
+	// default proxy is undefined, no proxy will be used
+	proxy = undefined
+}
+
+function getFetchOptions() {
+	if (typeof proxy !== "undefined") {
+		return { agent: proxy }
+	}
+
+	return undefined
+}
 
 function tmpFile(filename) {
 	return path.join(os.tmpdir(), filename);
@@ -112,7 +140,7 @@ class Selection {
 		if(this._response) {
 			return Promise.resolve(this._response)
 		}
-		return fetch(this.getZipURL())
+		return fetch(this.getZipURL(), getFetchOptions())
 			.then(response => {
 				if(response.status !== 200) {
 					throw new Error(response.statusText)
@@ -238,7 +266,7 @@ class Font {
 		if(subsets) {
 			url += "subsets=" + subsets.join(",")
 		}
-		return fetch(url)
+		return fetch(url, getFetchOptions())
 			.then(response => {
 				if(response.status !== 200) {
 					throw new Error(response.statusText)
@@ -265,7 +293,7 @@ class GoogleWebfonts {
 		if(this._fonts) {
 			return Promise.resolve(this._fonts)
 		} else {
-			return fetch(this.url)
+			return fetch(this.url, getFetchOptions())
 				.then(response => {
 					if(response.status !== 200) {
 						throw new Error(response.statusText)
@@ -294,5 +322,7 @@ class GoogleWebfonts {
 GoogleWebfonts.Font = Font
 
 GoogleWebfonts.Selection = Selection
+
+GoogleWebfonts.configureProxy = configureProxy
 
 module.exports = GoogleWebfonts
