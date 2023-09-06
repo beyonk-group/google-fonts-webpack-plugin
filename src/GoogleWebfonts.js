@@ -8,7 +8,7 @@ const fs = require("fs")
 const { RawSource } = require("webpack-sources")
 const FontTypes = require("./FontTypes")
 
-const API_URL = "https://google-webfonts-helper.herokuapp.com/api/fonts"
+const API_URL = "https://gwfh.mranftl.com/api/fonts"
 
 const FONT_SRC = (font, format) => `url("${font}")${format ? ` format("${format}")` : ""}`
 
